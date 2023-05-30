@@ -28,7 +28,7 @@ class Plugin {
       properties: {
         deadLetter: {
           type: 'object',
-          required: ['sqs'],
+          required: [],
           additionalProperties: true,
           properties: {
             sqs: {
@@ -40,6 +40,9 @@ class Plugin {
                 messageRetentionPeriod: { type: 'number' },
                 visibilityTimeout: { type: 'number' }
               }
+            },
+            targetArn: {
+              type: 'string'
             }
           }
         }
