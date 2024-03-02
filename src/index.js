@@ -28,20 +28,41 @@ class Plugin {
       properties: {
         deadLetter: {
           type: 'object',
-          required: ['sqs'],
-          additionalProperties: true,
-          properties: {
-            sqs: {
-              type: 'object',
+          oneOf: [
+            {
+              required: ['sqs'],
               additionalProperties: true,
-              required: ['queueName'],
               properties: {
-                queueName: { type: 'string' },
-                messageRetentionPeriod: { type: 'number' },
-                visibilityTimeout: { type: 'number' }
+                sqs: {
+                  type: 'object',
+                  additionalProperties: true,
+                  required: ['queueName'],
+                  properties: {
+                    queueName: { type: 'string' },
+                    messageRetentionPeriod: { type: 'number' },
+                    visibilityTimeout: { type: 'number' }
+                  }
+                }
+              }
+            },
+            {
+              required: ['targetArn'],
+              properties: {
+                targetArn: {
+                  oneOf: [
+                    { type: 'string' },
+                    {
+                      type: 'object',
+                      required: ['GetResourceArn'],
+                      properties: {
+                        GetResourceArn: { type: 'string' }
+                      }
+                    }
+                  ]
+                }
               }
             }
-          }
+          ]
         }
       }
     })
